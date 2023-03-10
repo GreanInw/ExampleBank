@@ -1,6 +1,6 @@
-﻿using HR.Common.DALs.Repositories.Queries;
+﻿using ExampleBank.Web.Repositories.Bases.Queries;
 
-namespace HR.Common.DALs.Repositories.Commands
+namespace ExampleBank.Web.Repositories.Bases.Commands
 {
     public interface ICommandRepository<TEntity> : IQueryRepository<TEntity>
         where TEntity : class

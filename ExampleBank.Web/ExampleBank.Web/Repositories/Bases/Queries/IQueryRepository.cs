@@ -1,4 +1,4 @@
-﻿namespace HR.Common.DALs.Repositories.Queries
+﻿namespace ExampleBank.Web.Repositories.Bases.Queries
 {
     public interface IQueryRepository<TEntity> : IDisposable where TEntity : class
     {

@@ -2,7 +2,7 @@
 using ExampleBank.Web.Data.DbContexts.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace HR.Common.DALs.Repositories.Queries
+namespace ExampleBank.Web.Repositories.Bases.Queries
 {
     public abstract class QueryRepository<TEntity, TDbContext> : IQueryRepository<TEntity>
         where TEntity : class
@@ -26,7 +26,7 @@ namespace HR.Common.DALs.Repositories.Queries
 
         public TEntity GetById(params object[] keyValues) => DbSet.Find(keyValues);
 
-        public async ValueTask<TEntity> GetByIdAsync(params object[] keyValues) 
+        public async ValueTask<TEntity> GetByIdAsync(params object[] keyValues)
             => await DbSet.FindAsync(keyValues);
     }
 }

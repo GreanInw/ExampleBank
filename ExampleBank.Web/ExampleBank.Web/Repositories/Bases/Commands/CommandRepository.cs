@@ -1,9 +1,9 @@
 ﻿using ExampleBank.Web.Data.DbContexts;
 using ExampleBank.Web.Data.DbContexts.Base;
-using HR.Common.DALs.Repositories.Queries;
+using ExampleBank.Web.Repositories.Bases.Queries;
 using Microsoft.EntityFrameworkCore;
 
-namespace HR.Common.DALs.Repositories.Commands
+namespace ExampleBank.Web.Repositories.Bases.Commands
 {
     public abstract class CommandRepository<TEntity, TDbContext> : QueryRepository<TEntity, TDbContext>, ICommandRepository<TEntity>
         where TEntity : class

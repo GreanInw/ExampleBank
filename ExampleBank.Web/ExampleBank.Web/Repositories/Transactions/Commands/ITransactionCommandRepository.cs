@@ -1,5 +1,5 @@
 ﻿using ExampleBank.Web.Data.Tables;
-using HR.Common.DALs.Repositories.Commands;
+using ExampleBank.Web.Repositories.Bases.Commands;
 
 namespace ExampleBank.Web.Repositories.Transactions.Commands
 {

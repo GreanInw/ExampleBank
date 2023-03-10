@@ -1,6 +1,6 @@
 ﻿using ExampleBank.Web.Data.DbContexts;
 using ExampleBank.Web.Data.Tables;
-using HR.Common.DALs.Repositories.Queries;
+using ExampleBank.Web.Repositories.Bases.Queries;
 
 namespace ExampleBank.Web.Repositories.BankAccounts.Queries
 {
