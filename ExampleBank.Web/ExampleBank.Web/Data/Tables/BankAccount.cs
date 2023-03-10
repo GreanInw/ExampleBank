@@ -1,5 +1,6 @@
 ﻿using ExampleBank.Web.Data.Auditables;
 using ExampleBank.Web.Data.Bases;
+using ExampleBank.Web.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExampleBank.Web.Data.Tables
@@ -11,6 +12,7 @@ namespace ExampleBank.Web.Data.Tables
 
         [Column(TypeName = "decimal(20,4)")]
         public decimal Amount { get; set; }
+        public BankAccountType BankAccountType { get; set; }
 
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
