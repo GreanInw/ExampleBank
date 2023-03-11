@@ -64,7 +64,7 @@ namespace ExampleBank.Web.Services.Accounts.Commands
 
         public async Task<ResultModel> UpdateAsync(UpdateAccountRequestModel model)
         {
-            var updateEntity = await AccountCommandRepository.GetByIdAsync(model.Id);
+            var updateEntity = await AccountCommandRepository.GetByIdAsync(Guid.Parse(model.Id));
             if (updateEntity is null)
             {
                 return new ResultModel(false, "Data not found");

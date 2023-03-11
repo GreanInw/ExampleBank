@@ -29,8 +29,18 @@ namespace ExampleBank.Web.Controllers
             return result.Success ? RedirectToAction("Index", "Account") : RedirectToError();
         }
 
+        [HttpGet]
+        public IActionResult Update(string id) => View(new UpdateAccountRequestModel { Id = id });
+
         [HttpPut]
         public async Task<IActionResult> Update(UpdateAccountRequestModel model)
-            => ReturnResponse(await Mediator.Send(model));
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var result = await Mediator.Send(model);
+            return result.Success ? RedirectToAction("Index", "Account") : RedirectToError();
+        }
     }
 }

@@ -1,52 +1,19 @@
 ﻿@using ExampleBank.Web.Enums;
 @using ExampleBank.Web.Models.Accounts.Requests;
-@model CreateAccountRequestModel
-@{
-    ViewData["Title"] = "Account Info";
-    var types = new[]
-    {
-        new SelectListItem($"{BankAccountType.Saving}", $"{BankAccountType.Saving}"),
-        new SelectListItem($"{BankAccountType.CurrentAccount}", $"{BankAccountType.CurrentAccount}"),
-    };
-}
+@model UpdateAccountRequestModel
 
 <form asp-controller="Account" asp-action="Upsert" method="post">
     @Html.HiddenFor(m => m.Id)
     <div class="row">
         <div class="mb-3">
-            <label for="IBAM" class="form-label">First name</label>
-            @Html.TextBoxFor(m => m.IBAM, htmlAttributes: new { @class = "form-control", @id = "IBAM" })
-        </div>
-        <div class="mb-3">
             <label for="firstName" class="form-label">First name</label>
-            @Html.TextBoxFor(m => m.Amount, htmlAttributes: new { @class = "form-control", @id = "firstName" })
+            @Html.TextBoxFor(m => m.FirstName, htmlAttributes: new { @class = "form-control", @id = "firstName" })
         </div>
         <div class="mb-3">
             <label for="lastName" class="form-label">Last name</label>
-            @Html.TextBoxFor(m => m.Amount, htmlAttributes: new { @class = "form-control", @id = "lastName" })
-        </div>
-        <div class="mb-3">
-            <label for="type" class="form-label">Type</label>
-            @Html.DropDownListFor(m => m.Type, types, htmlAttributes: new { @class = "form-select", @id="type" })
-        </div>
-        <div class="mb-3 col-8">
-            <label for="amount" class="form-label">Amount</label>
-            @Html.TextBoxFor(m => m.Amount, htmlAttributes: new { @class = "form-control", @id = "amount", @type="number" })
-        </div>
-        <div class="mb-3 col-4">
-            <label for="fee" class="form-label">Fee</label>
-            <input type="number" class="form-control" disabled id="fee" value="" />
+            @Html.TextBoxFor(m => m.LastName, htmlAttributes: new { @class = "form-control", @id = "lastName" })
         </div>
     </div>
     <button type="submit" class="btn btn-primary mx-1">Save</button>
     <a class="btn btn-light" asp-controller="Account" asp-action="Index">Back</a>
 </form>
-
-@section Scripts{
-    <script>
-        $("#amount").keyup(function () {
-            let value = $(this).val();
-            $("#fee").val(value === "" ? 0 : value * 0.001);
-        });
-    </script>
-}
