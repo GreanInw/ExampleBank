@@ -14,6 +14,9 @@ namespace ExampleBank.Web.Controllers
         public async Task<IActionResult> Index(GetAccountRequestModel model)
             => ReturnResponse(await Mediator.Send(model));
 
+        [HttpGet]
+        public IActionResult Upsert() => View();
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateAccountRequestModel model)
             => ReturnResponse(await Mediator.Send(model));

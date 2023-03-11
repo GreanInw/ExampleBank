@@ -2,8 +2,10 @@
 
 namespace ExampleBank.Web.Models.Accounts.Requests
 {
-    public class UpdateAccountRequestModel : CreateAccountRequestModel, IRequest<ResultModel>
+    public class UpdateAccountRequestModel : IRequest<ResultModel>
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

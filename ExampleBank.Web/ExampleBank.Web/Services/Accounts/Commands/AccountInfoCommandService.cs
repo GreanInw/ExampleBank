@@ -1,4 +1,5 @@
-﻿using ExampleBank.Web.Data.Tables;
+﻿using ExampleBank.Web.Commons;
+using ExampleBank.Web.Data.Tables;
 using ExampleBank.Web.Models;
 using ExampleBank.Web.Models.Accounts.Requests;
 using ExampleBank.Web.Repositories.Accounts.Commands;
@@ -24,7 +25,17 @@ namespace ExampleBank.Web.Services.Accounts.Commands
                 Id = Guid.NewGuid(),
                 FirstName = model.FirstName,
                 LastName = model.LastName,
+                BackAccounts = new List<BankAccount>
+                {
+                    new BankAccount
+                    {
+                        IBAN = model.IBAM,
+                        BankAccountType = model.Type,
+                        Amount = model.Amount * CommonInternalConstants.DefaultData.Fee,
+                    }
+                }
             };
+
             AccountCommandRepository.Add(newAccount);
             await UnitOfWork.CommitAsync();
             return new ResultModel(true);
@@ -44,5 +55,6 @@ namespace ExampleBank.Web.Services.Accounts.Commands
             await UnitOfWork.CommitAsync();
             return new ResultModel(true);
         }
+
     }
 }

@@ -15,7 +15,13 @@ namespace ExampleBank.Web.Data.Tables
         public Guid AccountId { get; set; }
         public string IBAN { get; set; }
         public DateTime TransDate { get; set; }
+
         [Column(TypeName = "decimal(20,4)")]
         public decimal Amount { get; set; }
+
+        [Column(TypeName = "decimal(25,8)")]
+        public decimal Fee { get; set; }
+        [MaxLength(255)]
+        public string Description { get; set; }
     }
 }
