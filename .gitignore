@@ -348,3 +348,4 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 /ExampleBank.Web/ExampleBank.Web/AppData/ExampleBank_log.ldf
+/ExampleBank.Web/ExampleBank.Web/AppData/ExampleBank.mdf
