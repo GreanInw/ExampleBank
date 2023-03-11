@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using ExampleBank.Web.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExampleBank.Web.Commons
@@ -11,5 +12,11 @@ namespace ExampleBank.Web.Commons
         }
 
         protected IMediator Mediator { get; }
+
+        protected IActionResult ReturnResponse(ResultModel model)
+            => ModelState.IsValid ? View(model) : BadRequest(model);
+
+        protected IActionResult ReturnResponse<T>(ResultModel<T> model)
+            => ModelState.IsValid ? View(model) : BadRequest(model);
     }
 }
