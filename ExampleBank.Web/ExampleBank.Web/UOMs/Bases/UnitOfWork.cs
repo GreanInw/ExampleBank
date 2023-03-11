@@ -33,7 +33,7 @@ namespace ExampleBank.Web.UOMs.Bases
 
         protected virtual void SetAuditableEntity()
         {
-            string identityName = Thread.CurrentPrincipal?.Identity?.Name?.ToLower();
+            string identityName = Thread.CurrentPrincipal?.Identity?.Name?.ToLower() ?? "System";
             var modifiedEntries = from e in DbContext.ChangeTracker.Entries()
                                   where (e.State == EntityState.Added || e.State == EntityState.Modified)
                                   && e.Entity is IAuditableEntity

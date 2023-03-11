@@ -18,5 +18,7 @@ namespace ExampleBank.Web.Commons
 
         protected IActionResult ReturnResponse<T>(ResultModel<T> model)
             => ModelState.IsValid ? View(model) : BadRequest(model);
+
+        protected IActionResult RedirectToError() => RedirectToAction("Error", "Home");
     }
 }

@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="AppData\ExampleBank.mdf" />
     <None Remove="AppData\ExampleBank_log.ldf" />
   </ItemGroup>
 

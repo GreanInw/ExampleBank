@@ -15,11 +15,19 @@ namespace ExampleBank.Web.Controllers
             => ReturnResponse(await Mediator.Send(model));
 
         [HttpGet]
-        public IActionResult Upsert() => View();
+        public IActionResult Create() => View();
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateAccountRequestModel model)
-            => ReturnResponse(await Mediator.Send(model));
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var result = await Mediator.Send(model);
+            return result.Success ? RedirectToAction("Index", "Account") : RedirectToError();
+        }
 
         [HttpPut]
         public async Task<IActionResult> Update(UpdateAccountRequestModel model)

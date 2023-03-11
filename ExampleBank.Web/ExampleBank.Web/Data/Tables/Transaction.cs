@@ -21,6 +21,9 @@ namespace ExampleBank.Web.Data.Tables
 
         [Column(TypeName = "decimal(25,8)")]
         public decimal Fee { get; set; }
+        [Column(TypeName = "decimal(25,8)")]
+        public decimal Balance { get; set; }
+
         [MaxLength(255)]
         public string Description { get; set; }
     }
