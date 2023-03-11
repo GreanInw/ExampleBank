@@ -1,8 +1,23 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using ExampleBank.Web.Models.Accounts.Responses;
+@model ResultModel<IEnumerable<AccountInfoResponseModel>>
+@{
+    ViewData["Title"] = "Account Info";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@if (!Model.Success)
+{
+    <div class="alert alert-danger" role="alert">
+        @Model.Message
+    </div>
+}
+
+<table class="table table-light table-hover">
+    @foreach (var item in Model.Result)
+    {
+        <tr>
+            <td>@item.FirstName</td>
+            <td>@item.LastName</td>
+            <td></td>
+        </tr>
+    }
+</table>
