@@ -2,7 +2,7 @@
 using ExampleBank.Web.Data.DbContexts.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace ExampleBank.Web.UOMs
+namespace ExampleBank.Web.UOMs.Bases
 {
     public abstract class UnitOfWork<TInterfaceDbContext> : IUnitOfWork
         where TInterfaceDbContext : IBaseDBContext

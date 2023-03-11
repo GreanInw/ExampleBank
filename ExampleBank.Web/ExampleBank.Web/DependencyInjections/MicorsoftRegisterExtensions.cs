@@ -5,6 +5,7 @@
         public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddOptions();
+            services.AddLogging();
             services.AddHttpContextAccessor();
             services.AddControllersWithViews();
 

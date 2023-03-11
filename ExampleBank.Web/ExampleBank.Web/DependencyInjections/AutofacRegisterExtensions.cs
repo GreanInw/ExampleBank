@@ -14,7 +14,7 @@ namespace ExampleBank.Web.DependencyInjections
             host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
             host.ConfigureContainer<ContainerBuilder>(builder =>
             {
-                builder.RegisterType<UnitOfWork<IBankDbContext>>().As<IUnitOfWork>().InstancePerLifetimeScope();
+                builder.RegisterType<BankUnitOfWork>().As<IBankUnitOfWork>().InstancePerLifetimeScope();
                 builder.RegisterDbContexts(configuration)
                        .RegisterWithAssembly(CommonInternalConstants.AutoRegisterCompoments.RepositoryName)
                        .RegisterWithAssembly(CommonInternalConstants.AutoRegisterCompoments.ServiceName);
@@ -33,7 +33,13 @@ namespace ExampleBank.Web.DependencyInjections
                         options.EnableRetryOnFailure();
                         options.MigrationsAssembly(typeof(BankDbContext).Assembly.GetName().Name);
                     });
-                return new BankDbContext(optionsBuilder.Options);
+                return optionsBuilder.Options;
+            }).SingleInstance();
+
+            builder.Register(com =>
+            {
+                var options = com.Resolve<DbContextOptions<BankDbContext>>();
+                return new BankDbContext(options);
             }).As<IBankDbContext>().InstancePerLifetimeScope();
             return builder;
         }
