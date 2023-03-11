@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExampleBank.Web.Migrations
 {
     [DbContext(typeof(BankDbContext))]
-    [Migration("20230311135742_InitializeDatabase")]
+    [Migration("20230311185339_InitializeDatabase")]
     partial class InitializeDatabase
     {
         /// <inheritdoc />
@@ -110,6 +110,16 @@ namespace ExampleBank.Web.Migrations
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(20,4)");
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(25,8)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<decimal>("Fee")
+                        .HasColumnType("decimal(25,8)");
 
                     b.Property<string>("IBAN")
                         .IsRequired()

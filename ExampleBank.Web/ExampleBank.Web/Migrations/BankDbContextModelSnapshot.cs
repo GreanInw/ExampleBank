@@ -55,28 +55,6 @@ namespace ExampleBank.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Account");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("5c1ebb1c-ade1-43bd-85bc-977e81cadfc2"),
-                            CreatedBy = "System",
-                            CreatedDate = new DateTime(2023, 3, 11, 10, 14, 40, 515, DateTimeKind.Utc),
-                            FirstName = "Jon",
-                            LastName = "Snow",
-                            ModifiedBy = "System",
-                            ModifiedDate = new DateTime(2023, 3, 11, 10, 14, 40, 515, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("8382a5a4-c73f-4314-af3e-699c16fca88e"),
-                            CreatedBy = "System",
-                            CreatedDate = new DateTime(2023, 3, 11, 10, 14, 40, 515, DateTimeKind.Utc),
-                            FirstName = "Aegon",
-                            LastName = "Targaryen",
-                            ModifiedBy = "System",
-                            ModifiedDate = new DateTime(2023, 3, 11, 10, 14, 40, 515, DateTimeKind.Utc)
-                        });
                 });
 
             modelBuilder.Entity("ExampleBank.Web.Data.Tables.BankAccount", b =>
@@ -129,6 +107,9 @@ namespace ExampleBank.Web.Migrations
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(20,4)");
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(25,8)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)

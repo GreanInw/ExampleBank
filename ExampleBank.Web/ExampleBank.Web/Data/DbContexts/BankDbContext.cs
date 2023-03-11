@@ -14,7 +14,7 @@ namespace ExampleBank.Web.Data.DbContexts
         {
             TablesConfigurations(modelBuilder);
             ApplyConfigurations(modelBuilder);
-            SeedData(modelBuilder);
+            //SeedData(modelBuilder);
         }
 
         private void TablesConfigurations(ModelBuilder builder)

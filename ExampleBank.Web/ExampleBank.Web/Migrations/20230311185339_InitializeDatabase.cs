@@ -37,7 +37,10 @@ namespace ExampleBank.Web.Migrations
                     AccountId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IBAN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     TransDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(20,4)", nullable: false)
+                    Amount = table.Column<decimal>(type: "decimal(20,4)", nullable: false),
+                    Fee = table.Column<decimal>(type: "decimal(25,8)", nullable: false),
+                    Balance = table.Column<decimal>(type: "decimal(25,8)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
