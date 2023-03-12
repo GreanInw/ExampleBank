@@ -12,6 +12,8 @@
 
         public ResultModel(bool success, TResult result) : this(success, string.Empty, result) { }
 
+        public ResultModel(bool success, string message) : this(success, message, default) { }
+
         public ResultModel(bool success, string message, TResult result)
         {
             Success = success;
@@ -27,6 +29,8 @@
         public ResultModel(bool success) : base(success, string.Empty, default) { }
 
         public ResultModel(bool success, object result) : base(success, string.Empty, result) { }
+
+        public ResultModel(bool success, string message) : base(success, message, default) { }
 
         public ResultModel(bool success, string message, object result) : base(success, message, result) { }
     }
