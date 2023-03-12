@@ -1,4 +1,5 @@
 ﻿@using ExampleBank.Web.Models.Accounts.Responses;
+@using ExampleBank.Web.Enums;
 @model ResultModel<IEnumerable<AccountInfoResponseModel>>
 @{
     ViewData["Title"] = "Account Info";
@@ -24,17 +25,65 @@
         <tr class="table-light">
             <th>First Name</th>
             <th>Last Name</th>
+            <th>Total Amounts</th>
             <th></th>
         </tr>
     </thead>
     @foreach (var item in Model.Result)
     {
+        string modelId = $"model_{item.Id}";
         <tr>
             <td>@item.FirstName</td>
             <td>@item.LastName</td>
+            <td>@item.TotalAmounts</td>
             <td>
-                <a class="btn btn-sm btn-link" asp-controller="Account"
-               asp-action="Update" asp-route-id="@item.Id">Edit</a>
+                <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#@modelId">
+                    Info
+                </button>
+                <div class="modal fade" id="@modelId" tabindex="-1"
+                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Bank Account Info</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr class="table-light">
+                                            <th>IBAM</th>
+                                            <th>Type</th>
+                                            <th>Amount</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    @foreach (var bank in item.BankAccounts)
+                                    {
+                                        <tr>
+                                            <td>@bank.IBAM</td>
+                                            <td>@bank.Type</td>
+                                            <td>@bank.Amount.ToString("n4")</td>
+                                            <td>
+                                                <a class="btn btn-sm btn-link" asp-controller="Account" asp-action="Deposit"
+                                                    asp-route-id="@bank.AccountId" asp-route-ibam="@bank.IBAM">Deposit</a>
+
+                                                <a class="btn btn-sm btn-link" asp-controller="Account" asp-action="Transfer"
+                                                    asp-route-id="@bank.AccountId" asp-route-ibam="@bank.IBAM">Transfer</a>
+
+                                                <a class="btn btn-sm btn-link" asp-controller="Account" asp-action="Transactions"
+                                                    asp-route-id="@bank.AccountId" asp-route-ibam="@bank.IBAM">Transfer</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </td>
         </tr>
     }

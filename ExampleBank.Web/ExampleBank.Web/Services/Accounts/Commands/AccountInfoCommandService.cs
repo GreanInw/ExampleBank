@@ -10,6 +10,7 @@ using ExampleBank.Web.Repositories.Transactions.Commands;
 using ExampleBank.Web.Services.Bases;
 using ExampleBank.Web.UOMs;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Options;
 
 namespace ExampleBank.Web.Services.Accounts.Commands
@@ -59,7 +60,7 @@ namespace ExampleBank.Web.Services.Accounts.Commands
                 Amount = model.Amount,
                 Fee = fee,
                 Balance = model.Amount - fee,
-                TransactionType = Enums.TransactionType.Deposit,
+                TransactionType = TransactionType.Deposit,
                 Description = "Initilize",
                 TransDate = DateTime.UtcNow,
             };
@@ -126,11 +127,11 @@ namespace ExampleBank.Web.Services.Accounts.Commands
         public async Task<ResultModel<TransferAccountResponseModel>> TransferAsync(TransferAccountRequestModel model)
         {
             var fromBankAccount = await BankAccountCommandRepository
-                .GetByIdAsync(model.FromIBAM, Guid.Parse(model.Id));
+                .GetByIdAsync(model.IBAM, Guid.Parse(model.Id));
             if (fromBankAccount is null)
             {
                 return new ResultModel<TransferAccountResponseModel>(false
-                    , $"From bank account '{model.FromIBAM}' not found.", ChangeToResponse(model));
+                    , $"From bank account '{model.IBAM}' not found.", ChangeToResponse(model));
             }
 
             if (fromBankAccount.Amount < model.Amount)
@@ -139,21 +140,28 @@ namespace ExampleBank.Web.Services.Accounts.Commands
                     , $"Cannot transfer. Because amount not enough.", ChangeToResponse(model));
             }
 
-            var toBankAccount = await BankAccountCommandRepository
-                .GetByIdAsync(model.ToIBAM, Guid.Parse(model.ToAccountId));
+            var keys = GetKeys(model.ToKeys);
+            if (!keys.AccountId.HasValue || string.IsNullOrWhiteSpace(keys.IBAM))
+            {
+                return new ResultModel<TransferAccountResponseModel>(false
+                    , $"Cannot transfer. Keys not found.", ChangeToResponse(model));
+            }
+
+            var toBankAccount = await BankAccountCommandRepository.GetByIdAsync(keys.IBAM, keys.AccountId.Value);
             if (toBankAccount is null)
             {
                 return new ResultModel<TransferAccountResponseModel>(false
-                    , $"To bank account '{model.ToIBAM}' not found.", ChangeToResponse(model));
+                    , $"To bank account '{model.ToKeys}' not found.", ChangeToResponse(model));
             }
 
-            PassingAndUpdateFromAccount(model, fromBankAccount);
+            PassingAndUpdateFromAccount(model, fromBankAccount, keys.IBAM);
             PassingAndUpdateToAccount(model, toBankAccount);
             await UnitOfWork.CommitAsync();
             return new ResultModel<TransferAccountResponseModel>(true);
         }
 
-        private void PassingAndUpdateFromAccount(TransferAccountRequestModel model, BankAccount entity)
+        private void PassingAndUpdateFromAccount(TransferAccountRequestModel model, BankAccount entity
+            , string toIBAM)
         {
             entity.Amount -= model.Amount;
             BankAccountCommandRepository.Edit(entity);
@@ -164,7 +172,7 @@ namespace ExampleBank.Web.Services.Accounts.Commands
                 IBAN = entity.IBAN,
                 Amount = model.Amount,
                 Balance = model.Amount,
-                Description = $"{TransactionType.Transfer} amount to '{model.ToIBAM}'.",
+                Description = $"{TransactionType.Transfer} amount to '{toIBAM}'.",
                 Fee = 0,
                 TransactionType = TransactionType.Transfer,
                 TransDate = DateTime.UtcNow
@@ -182,7 +190,7 @@ namespace ExampleBank.Web.Services.Accounts.Commands
                 IBAN = entity.IBAN,
                 Amount = model.Amount,
                 Balance = model.Amount,
-                Description = $"Receive amount from '{model.FromIBAM}'.",
+                Description = $"Receive amount from '{model.IBAM}'.",
                 Fee = 0,
                 TransactionType = TransactionType.Transfer,
                 TransDate = DateTime.UtcNow
@@ -194,9 +202,8 @@ namespace ExampleBank.Web.Services.Accounts.Commands
             {
                 Id = model.Id,
                 Amount = model.Amount,
-                FromIBAM = model.FromIBAM,
-                ToAccountId = model.ToAccountId,
-                ToIBAM = model.ToIBAM
+                IBAM = model.IBAM,
+                ToKeys = model.ToKeys
             };
 
         private DepositAccountResponseModel ChangeToResponse(DepositAccountRequestModel model)
@@ -206,5 +213,18 @@ namespace ExampleBank.Web.Services.Accounts.Commands
                 Amount = model.Amount,
                 IBAM = model.IBAM
             };
+
+        private (Guid? AccountId, string IBAM) GetKeys(string keys)
+        {
+            try
+            {
+                string[] rawKeys = keys.DecodeToBase64().Split('|');
+                return (Guid.Parse(rawKeys[0]), rawKeys[1]);
+            }
+            catch
+            {
+                return (null, null);
+            }
+        }
     }
 }

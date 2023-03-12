@@ -20,5 +20,9 @@ namespace ExampleBank.Web.Commons
             => ModelState.IsValid ? View(model) : BadRequest(model);
 
         protected IActionResult RedirectToError() => RedirectToAction("Error", "Home");
+
+        protected string GetErrorMessages()
+            => ModelState.IsValid ? string.Empty 
+                : string.Join("<br />", ModelState.Values.SelectMany(s => s.Errors).Select(s => s.ErrorMessage));
     }
 }
