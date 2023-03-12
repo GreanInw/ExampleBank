@@ -1,6 +1,7 @@
 ﻿using ExampleBank.Web.Commons;
 using ExampleBank.Web.Models;
 using ExampleBank.Web.Models.Accounts.Requests;
+using ExampleBank.Web.Models.Transactions.Requests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -114,6 +115,6 @@ namespace ExampleBank.Web.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Transactions(string id, string ibam)
-            => View();
+            => View(await Mediator.Send(new GetTransactionsByAccountRequestModel { Id = id, IBAM = ibam }));
     }
 }
