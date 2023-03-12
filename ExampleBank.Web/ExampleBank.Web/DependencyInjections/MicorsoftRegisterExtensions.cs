@@ -1,4 +1,6 @@
-﻿namespace ExampleBank.Web.DependencyInjections
+﻿using ExampleBank.Web.BackgroundServices;
+
+namespace ExampleBank.Web.DependencyInjections
 {
     public static class MicorsoftRegisterExtensions
     {
@@ -10,6 +12,8 @@
             services.AddControllersWithViews();
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
+
+            services.AddHostedService<AutoMigrationService>();
 
             return services;
         }
