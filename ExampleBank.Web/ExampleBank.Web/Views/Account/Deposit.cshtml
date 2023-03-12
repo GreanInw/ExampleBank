@@ -1,0 +1,46 @@
+﻿@using ExampleBank.Web.Enums;
+@using ExampleBank.Web.Models.Accounts.Requests;
+@model ResultModel<DepositAccountRequestModel>
+@{
+    ViewData["Title"] = "Deposit";
+}
+
+@if (!Model.Success)
+{
+    <div class="alert alert-danger" role="alert">
+        @Model.Message
+    </div>
+}
+
+<form asp-controller="Account" asp-action="Deposit" method="post">
+    @Html.Hidden(nameof(Model.Result.Id), Model.Result.Id)
+    <div class="row">
+        <div class="mb-3">
+            <label for="IBAM" class="form-label">IBAM No.</label>
+            @Html.TextBox(nameof(Model.Result.IBAM), Model.Result
+            , htmlAttributes: new { @class = "form-control", @id = "IBAM", @readonly="readonly" })
+        </div>
+        <div class="mb-3 col-8">
+            <label for="amount" class="form-label">Amount</label>
+            @Html.TextBox(nameof(Model.Result.Amount), Model.Result.Amount
+                , htmlAttributes: new { @class = "form-control", @id = "amount", @type="number" })
+
+            @Html.ValidationMessage(nameof(Model.Result.Amount), "", htmlAttributes:new { @class = "text-danger" })
+        </div>
+        <div class="mb-3 col-4">
+            <label for="fee" class="form-label">Fee</label>
+            <input type="number" class="form-control" disabled id="fee" value="" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary mx-1">Submit</button>
+    <a class="btn btn-light" asp-controller="Account" asp-action="Index">Back</a>
+</form>
+
+@section Scripts{
+    <script>
+        $("#amount").keyup(function () {
+            let value = $(this).val();
+            $("#fee").val(value === "" ? 0 : value * 0.001);
+        });
+    </script>
+}

@@ -14,7 +14,7 @@ namespace ExampleBank.Web.Data.DbContexts
         {
             TablesConfigurations(modelBuilder);
             ApplyConfigurations(modelBuilder);
-            SeedData(modelBuilder);
+            //SeedData(modelBuilder);
         }
 
         private void TablesConfigurations(ModelBuilder builder)
@@ -48,46 +48,21 @@ namespace ExampleBank.Web.Data.DbContexts
         {
             builder.Entity<Account>().HasData(new[]
             {
-                new Account 
-                { 
-                    Id = Guid.NewGuid(), 
+                new Account
+                {
+                    Id = Guid.Parse("5c1ebb1c-ade1-43bd-85bc-977e81cadfc2"),
                     FirstName = "Jon", LastName = "Snow",
-                    CreatedBy = "System", ModifiedBy = "System", 
-                    CreatedDate = DateTime.UtcNow, ModifiedDate = DateTime.UtcNow,
-                    BackAccounts = new List<BankAccount>
-                    {
-                        new BankAccount 
-                        { 
-                            IBAN = "NL73INGB2274264198", Amount = 100000,
-                            BankAccountType = BankAccountType.Saving,
-                            CreatedBy = "System", ModifiedBy = "System",
-                            CreatedDate = DateTime.UtcNow, ModifiedDate = DateTime.UtcNow,
-                        },
-                        new BankAccount 
-                        { 
-                            IBAN = "NL06INGB4999152932", Amount = 100000,
-                            BankAccountType = BankAccountType.CurrentAccount,
-                            CreatedBy = "System", ModifiedBy = "System",
-                            CreatedDate = DateTime.UtcNow, ModifiedDate = DateTime.UtcNow,
-                        },
-                    } 
+                    CreatedBy = "System", ModifiedBy = "System",
+                    CreatedDate = new DateTime(2023, 3, 11, 10, 14, 40, 515, DateTimeKind.Utc),
+                    ModifiedDate = new DateTime(2023, 3, 11, 10, 14, 40, 515, DateTimeKind.Utc)
                 },
                 new Account
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("8382a5a4-c73f-4314-af3e-699c16fca88e"),
                     FirstName = "Aegon", LastName = "Targaryen",
                     CreatedBy = "System", ModifiedBy = "System",
-                    CreatedDate = DateTime.UtcNow, ModifiedDate = DateTime.UtcNow,
-                    BackAccounts = new List<BankAccount>
-                    {
-                        new BankAccount
-                        {
-                            IBAN = "NL76ABNA2376059879", Amount = 500,
-                            BankAccountType = BankAccountType.Saving,
-                            CreatedBy = "System", ModifiedBy = "System",
-                            CreatedDate = DateTime.UtcNow, ModifiedDate = DateTime.UtcNow,
-                        }
-                    }
+                    CreatedDate = new DateTime(2023, 3, 11, 10, 14, 40, 515, DateTimeKind.Utc),
+                    ModifiedDate = new DateTime(2023, 3, 11, 10, 14, 40, 515, DateTimeKind.Utc)
                 },
             });
         }

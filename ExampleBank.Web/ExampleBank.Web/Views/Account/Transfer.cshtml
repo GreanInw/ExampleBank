@@ -1,0 +1,42 @@
+﻿@using ExampleBank.Web.Enums;
+@using ExampleBank.Web.Models.Accounts.Requests;
+@model ResultModel<TransferAccountRequestModel>
+@{
+    ViewData["Title"] = "Transfer";
+}
+
+@if (!Model.Success)
+{
+    <div class="alert alert-danger" role="alert">
+        @Model.Message
+    </div>
+}
+
+<form asp-controller="Account" asp-action="Transfer" method="post">
+    @Html.Hidden(nameof(Model.Result.Id), Model.Result.Id)
+    <div class="row">
+        <div class="mb-3">
+            <label for="IBAM" class="form-label">From IBAM No.</label>
+            @Html.TextBox(nameof(Model.Result.IBAM), Model.Result
+            , htmlAttributes: new { @class = "form-control", @id = "IBAM", @readonly="readonly" })
+        </div>
+        <div class="mb-3">
+            <label for="amount" class="form-label">Total Amount</label>
+            @Html.TextBox(nameof(Model.Result.TotalAmount), Model.Result.TotalAmount.ToString("n4")
+            , htmlAttributes: new { @class = "form-control", @id = "amount", @readonly="readonly" })
+        </div>
+
+        <div class="mb-3">
+            <label for="IBAM" class="form-label">To IBAM No.</label>
+            @Html.DropDownList(nameof(Model.Result.ToKeys), Model.Result.IBAMItems, "Please selected", new { @class = "form-select"})
+        </div>
+
+        <div class="mb-3">
+            <label for="amount" class="form-label">Transfer Amount</label>
+            @Html.TextBox(nameof(Model.Result.Amount), Model.Result.Amount
+            , htmlAttributes: new { @class = "form-control", @id = "amount", @type="number" })
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary mx-1">Submit</button>
+    <a class="btn btn-light" asp-controller="Account" asp-action="Index">Back</a>
+</form>

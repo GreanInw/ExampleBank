@@ -1,4 +1,4 @@
-﻿namespace ExampleBank.Web.UOMs
+﻿namespace ExampleBank.Web.UOMs.Bases
 {
     public interface IUnitOfWork : IDisposable
     {

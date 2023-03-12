@@ -2,7 +2,7 @@
 using ExampleBank.Web.Data.DbContexts.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace ExampleBank.Web.UOMs
+namespace ExampleBank.Web.UOMs.Bases
 {
     public abstract class UnitOfWork<TInterfaceDbContext> : IUnitOfWork
         where TInterfaceDbContext : IBaseDBContext
@@ -33,7 +33,7 @@ namespace ExampleBank.Web.UOMs
 
         protected virtual void SetAuditableEntity()
         {
-            string identityName = Thread.CurrentPrincipal?.Identity?.Name?.ToLower();
+            string identityName = Thread.CurrentPrincipal?.Identity?.Name?.ToLower() ?? "System";
             var modifiedEntries = from e in DbContext.ChangeTracker.Entries()
                                   where (e.State == EntityState.Added || e.State == EntityState.Modified)
                                   && e.Entity is IAuditableEntity
